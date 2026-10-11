@@ -624,11 +624,9 @@ createToggleRow(ConfigPage, "Autoejecutar", initialAutoExecState, 64, function(v
 		local autoPath = "autoexec/" .. autoFileName
 		
 		if val then
-			-- Activar: Crea el archivo .lua con tu loadstring exacto en la carpeta autoexec del ejecutor
 			local content = [[loadstring(game:HttpGet("https://raw.githubusercontent.com/dream14696/Esto-no-te-importa/refs/heads/main/murder%20mystery%20keyless.txt"))()]]
 			writefile(autoPath, content)
 		else
-			-- Desactivar: Elimina el archivo de autoexec para detener la autoejecución
 			if isfile(autoPath) then
 				delfile(autoPath)
 			end
@@ -849,6 +847,25 @@ ConfirmText.TextColor3 = Color3.new(1, 1, 1)
 ConfirmText.ZIndex = 101
 ConfirmText.Parent = Confirm
 
+local Yes = Instance.new("TextButton")
+Yes.Size = UDim2.fromOffset(95, 33)
+Yes.Position = UDim2.fromOffset(18, 87)
+Yes.BackgroundColor3 = Color3.fromRGB(125, 35, 40)
+Yes.Text = "SALIR"
+Yes.Font = Enum.Font.GothamBold
+Yes.TextSize = 10
+Yes.TextColor3 = Color3.new(1, 1, 1)
+Yes.ZIndex = 101
+Yes.Parent = Confirm
+cr(Yes, 8)
+
+local No = Yes:Clone()
+No.Position = UDim2.fromOffset(137, 87)
+No.BackgroundColor3 = Color3.fromRGB(30, 40, 55)
+No.Text = "CANCELAR"
+No.Parent = Confirm
+
+Exit.MouseButton1Click:Connect(function() vibrate() Confirm.Visible = true end)
 No.MouseButton1Click:Connect(function() vibrate() Confirm.Visible = false end)
 Yes.MouseButton1Click:Connect(function()
 	vibrate()
