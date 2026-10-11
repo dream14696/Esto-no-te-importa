@@ -605,39 +605,31 @@ Follow.Parent = ConfigPage
 local Copy = button(ConfigPage, "COPY PROFILE", 26, 32)
 
 --------------------------------------------------
--- LÓGICA DE AUTOEJECCIÓN (AUTOEXECUTE / SCRIPTS)
+-- LÓGICA DE AUTOEJECCIÓN (AUTOEXEC / SCRIPTS)
 --------------------------------------------------
 
-local scriptFileName = "murder mystery keyless.txt"
+local autoFileName = "MM2_Auto.lua"
 
 pcall(function()
-	if not isfolder("autoexecute") then makefolder("autoexecute") end
-	if not isfolder("Scripts") then makefolder("Scripts") end
+	if not isfolder("autoexec") then makefolder("autoexec") end
 end)
 
 local initialAutoExecState = false
 pcall(function()
-	initialAutoExecState = isfile("autoexecute/" .. scriptFileName)
+	initialAutoExecState = isfile("autoexec/" .. autoFileName)
 end)
 
 createToggleRow(ConfigPage, "Autoejecutar", initialAutoExecState, 64, function(val)
 	pcall(function()
-		local autoPath = "autoexecute/" .. scriptFileName
-		local scriptPath = "Scripts/" .. scriptFileName
+		local autoPath = "autoexec/" .. autoFileName
 		
 		if val then
-			-- Activar: Mover o crear el archivo en autoexecute con el link Raw de GitHub
-			local content = [[loadstring(game:HttpGet("https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/murder%20mystery%20keyless.txt"))()]]
-			if isfile(scriptPath) then
-				content = readfile(scriptPath)
-				delfile(scriptPath)
-			end
+			-- Activar: Crea el archivo .lua con tu loadstring exacto en la carpeta autoexec del ejecutor
+			local content = [[loadstring(game:HttpGet("https://raw.githubusercontent.com/dream14696/Esto-no-te-importa/refs/heads/main/murder%20mystery%20keyless.txt"))()]]
 			writefile(autoPath, content)
 		else
-			-- Desactivar: Mover el archivo de regreso a Scripts
+			-- Desactivar: Elimina el archivo de autoexec para detener la autoejecución
 			if isfile(autoPath) then
-				local content = readfile(autoPath)
-				writefile(scriptPath, content)
 				delfile(autoPath)
 			end
 		end
@@ -857,25 +849,6 @@ ConfirmText.TextColor3 = Color3.new(1, 1, 1)
 ConfirmText.ZIndex = 101
 ConfirmText.Parent = Confirm
 
-local Yes = Instance.new("TextButton")
-Yes.Size = UDim2.fromOffset(95, 33)
-Yes.Position = UDim2.fromOffset(18, 87)
-Yes.BackgroundColor3 = Color3.fromRGB(125, 35, 40)
-Yes.Text = "SALIR"
-Yes.Font = Enum.Font.GothamBold
-Yes.TextSize = 10
-Yes.TextColor3 = Color3.new(1, 1, 1)
-Yes.ZIndex = 101
-Yes.Parent = Confirm
-cr(Yes, 8)
-
-local No = Yes:Clone()
-No.Position = UDim2.fromOffset(137, 87)
-No.BackgroundColor3 = Color3.fromRGB(30, 40, 55)
-No.Text = "CANCELAR"
-No.Parent = Confirm
-
-Exit.MouseButton1Click:Connect(function() vibrate() Confirm.Visible = true end)
 No.MouseButton1Click:Connect(function() vibrate() Confirm.Visible = false end)
 Yes.MouseButton1Click:Connect(function()
 	vibrate()
